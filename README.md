@@ -1,30 +1,55 @@
-# React + TypeScript + Vite
+# React Project in Docker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is configured to run within a Docker container, making it easy to set up and consistent across any development environment.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Before starting, make sure you have Docker and Docker Compose installed on your machine. You can download and install them from [Docker Desktop](https://www.docker.com/products/docker-desktop).
 
-## Expanding the ESLint configuration
+## Setup
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+The project utilizes `docker-compose` for environment setup. The `docker-compose.yml` file contains all necessary configurations to build and run the application container.
 
-- Configure the top-level `parserOptions` property like this:
+## Basic Commands
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+### Building and Running the Project
+
+To build and run the project in development mode:
+
+```bash
+docker-compose up --build
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+This command will build the Docker image and run the container. The application will be available at http://localhost:3000.
+
+### Running the Project without rebuilding
+
+To run the project without rebuilding the image:
+
+```bash
+docker-compose up
+```
+
+### Stopping the Project
+
+To stop the project:
+
+```bash
+docker-compose down
+```
+
+### Volume Structure
+
+react_data: A Docker volume for the application's source code. It allows for persistence and synchronization of the source code between the host and the container.
+
+react_node_modules: A separate Docker volume for node_modules, ensuring that dependencies remain persistent and are not overwritten by the source code mounting.
+
+### Installing new dependencies
+
+To install new dependencies, you can run the `npm install` command from within the container:
+
+```bash
+docker-compose run --rm web npm install <package-name>
+```
+
+This will install the package and update the `package.json` and `package-lock.json` files.
