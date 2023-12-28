@@ -1,14 +1,16 @@
 version: '3.4'
 services:
   web:
-    image: node:alpine
-    container_name: tl_frontend
-    entrypoint: /bin/sh
+    build: .
     ports:
-      - 3000:3000
-    working_dir: /srv/app
+      - "3000:3000"
     volumes:
-      - type: bind
-        source: ./
-        target: /srv/app
-    tty: true
+      - react_data:/app
+      - react_node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+
+volumes:
+  react_data:
+  react_node_modules:
