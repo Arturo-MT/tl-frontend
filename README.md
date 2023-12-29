@@ -46,10 +46,12 @@ react_node_modules: A separate Docker volume for node_modules, ensuring that dep
 
 ### Installing new dependencies
 
-To install new dependencies, you can run the `npm install` command from within the container:
+To install new dependencies, you can run the `npm install`, commit the changes to the `package.json` and `package-lock.json` files, and rebuild the image. However, this is not recommended as it will cause the image to be rebuilt every time a new dependency is added.
+
+Instead, you can run the following command to install new dependencies:
 
 ```bash
-docker-compose run --rm web npm install <package-name>
+docker-compose run --rm app npm install <package-name>
 ```
 
 This will install the package and update the `package.json` and `package-lock.json` files.
