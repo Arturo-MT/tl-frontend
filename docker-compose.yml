@@ -5,12 +5,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - react_data:/app
-      - react_node_modules:/app/node_modules
+      - .:/app
+      - /app/node_modules
     environment:
       - NODE_ENV=development
     command: npm run dev
-
-volumes:
-  react_data:
-  react_node_modules:
