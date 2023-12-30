@@ -1,9 +1,14 @@
-import { fontFamily } from 'tailwindcss/defaultTheme'
+/** @type {import('tailwindcss').Config} */
 import tailwindcssAnimate from 'tailwindcss-animate'
 
-/** @type {import('tailwindcss').Config} */
 export const darkMode = ['class']
-export const content = ['app/**/*.{ts,tsx}', 'components/**/*.{ts,tsx}']
+export const content = [
+  './pages/**/*.{ts,tsx}',
+  './components/**/*.{ts,tsx}',
+  './app/**/*.{ts,tsx}',
+  './src/**/*.{ts,tsx}'
+]
+export const prefix = ''
 export const theme = {
   container: {
     center: true,
@@ -49,12 +54,9 @@ export const theme = {
       }
     },
     borderRadius: {
-      lg: `var(--radius)`,
-      md: `calc(var(--radius) - 2px)`,
+      lg: 'var(--radius)',
+      md: 'calc(var(--radius) - 2px)',
       sm: 'calc(var(--radius) - 4px)'
-    },
-    fontFamily: {
-      sans: ['var(--font-sans)', ...fontFamily.sans]
     },
     keyframes: {
       'accordion-down': {
