@@ -10,11 +10,21 @@ export default defineConfig({
     port: 3000,
     watch: {
       usePolling: true
+    },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true
+      }
     }
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './')
+      '@': path.resolve(__dirname, './'),
+      hooks: path.resolve(__dirname, './src/hooks'),
+      containers: path.resolve(__dirname, './src/containers'),
+      components: path.resolve(__dirname, './src/components'),
+      pages: path.resolve(__dirname, './src/pages')
     }
   }
 })
