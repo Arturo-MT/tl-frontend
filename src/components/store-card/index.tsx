@@ -6,12 +6,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-
-interface StoreInterface {
-  id: string
-  name: string
-  logo: string
-}
+import { StoreInterface } from '@/src/types'
 
 export default function StoreCard({ store }: { store: StoreInterface }) {
   return (
