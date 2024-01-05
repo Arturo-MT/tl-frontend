@@ -6,7 +6,8 @@
       "hooks/*": ["./src/hooks/*"],
       "components/*": ["./src/components/*"],
       "containers/*": ["./src/containers/*"],
-      "pages/*": ["./src/pages/*"]
+      "pages/*": ["./src/pages/*"],
+      "types/*": ["./src/types/*"]
     },
     "target": "ES2020",
     "useDefineForClassFields": true,
