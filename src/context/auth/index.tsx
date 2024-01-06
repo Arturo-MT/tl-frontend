@@ -3,7 +3,13 @@ import axios, { AxiosResponse } from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 import { omitNull } from './utils'
-import { ActionType, AuthContextType, StateType, UserType } from '@/src/types'
+import {
+  ActionType,
+  AuthContextType,
+  LoginFormValues,
+  StateType,
+  UserType
+} from '@/src/types'
 
 const AuthContext = React.createContext({} as AuthContextType)
 const USER_STORAGE_KEY = 'TL_USER'
@@ -18,6 +24,8 @@ const reducer = (state: StateType, action: ActionType) => {
     case 'REMOVE_USER':
       localStorage.removeItem(USER_STORAGE_KEY)
       return { ...state, user: null, loading: false }
+    case 'SET_LOGIN_ERROR':
+      return { ...state, loginError: action.payload.loginError, loading: false }
     default:
       throw new Error('Action not supported')
   }
@@ -28,11 +36,21 @@ const initialState: AuthContextType = {
   loginWithPassword: async () => {},
   logout: () => {},
   loading: true,
-  renewToken: async () => {}
+  renewToken: async () => {},
+  loginError: null,
+  registerUser: async () => {}
 }
 
 interface AuthProviderInterface {
   children: React.ReactNode
+}
+
+interface ErrorType extends AxiosResponse {
+  response: {
+    data: {
+      detail: string
+    }
+  }
 }
 
 const AuthProvider: React.FC<AuthProviderInterface> = ({ children }) => {
@@ -59,14 +77,53 @@ const AuthProvider: React.FC<AuthProviderInterface> = ({ children }) => {
 
   const loginWithPassword = useCallback(
     async ({ username, password }: { username: string; password: string }) => {
-      const res = await axios.post(`${API_URL}/token/`, {
-        username,
-        password
-      })
-      handleUser(res)
-      console.info('User logged in')
+      dispatch({ type: 'FETCH_USER' })
+
+      try {
+        const result = await axios.post(`${API_URL}/token/`, {
+          username,
+          password
+        })
+        handleUser(result)
+        dispatch({ type: 'SET_LOGIN_ERROR', payload: { loginError: null } })
+        navigate('/')
+      } catch (error) {
+        const e = error as ErrorType
+        dispatch({
+          type: 'SET_LOGIN_ERROR',
+          payload: {
+            loginError: e.response?.data.detail ?? 'Error desconocido'
+          }
+        })
+      }
     },
-    []
+    [navigate]
+  )
+
+  const registerUser = useCallback(
+    async ({ username, email, password }: LoginFormValues) => {
+      dispatch({ type: 'FETCH_USER' })
+
+      try {
+        const result = await axios.post(`${API_URL}/users/create/`, {
+          username,
+          email,
+          password
+        })
+        handleUser(result)
+        dispatch({ type: 'SET_LOGIN_ERROR', payload: { loginError: null } })
+        navigate('/')
+      } catch (error) {
+        const e = error as ErrorType
+        dispatch({
+          type: 'SET_LOGIN_ERROR',
+          payload: {
+            loginError: e.response?.data.detail ?? 'Error desconocido'
+          }
+        })
+      }
+    },
+    [navigate]
   )
 
   const renewToken = useCallback(async () => {
@@ -140,15 +197,29 @@ const AuthProvider: React.FC<AuthProviderInterface> = ({ children }) => {
     navigate('/')
   }, [navigate])
 
+  useEffect(() => {
+    console.log(state)
+  }, [state])
+
   const value = useMemo(() => {
     return {
       user: state.user,
       loginWithPassword,
       logout,
       renewToken,
-      loading: state.loading
+      loading: state.loading,
+      loginError: state.loginError,
+      registerUser
     }
-  }, [state.user, state.loading, renewToken, logout, loginWithPassword])
+  }, [
+    state.user,
+    state.loading,
+    renewToken,
+    logout,
+    loginWithPassword,
+    state.loginError,
+    registerUser
+  ])
 
   if (state.loading) {
     return null
