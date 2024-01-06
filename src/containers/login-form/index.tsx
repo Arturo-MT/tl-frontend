@@ -21,7 +21,7 @@ const LoginSchema = Yup.object().shape({
 
 const LoginForm: React.FC = () => {
   const initialValues: LoginFormValues = { username: '', password: '' }
-  const { loginWithPassword } = useAuth()
+  const { loginWithPassword, loginError } = useAuth()
 
   return (
     <Formik
@@ -34,7 +34,7 @@ const LoginForm: React.FC = () => {
     >
       {({ isSubmitting }) => (
         <Form>
-          <Card className='flex flex-col gap-4 p-8 w-max bg-slate-50'>
+          <Card className='flex flex-col gap-4 p-8 w-[400px] bg-slate-50'>
             <Field
               type='text'
               name='username'
@@ -62,6 +62,7 @@ const LoginForm: React.FC = () => {
             <Button type='submit' disabled={isSubmitting}>
               Iniciar sesión
             </Button>
+            {loginError && <Label className='text-red-400'>{loginError}</Label>}
           </Card>
         </Form>
       )}
