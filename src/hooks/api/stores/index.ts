@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { storeQuery, storesQuery } from './queries'
-import { STORES_QUERY_KEY } from '../constants'
+import { STORES_QUERY_KEY, STORE_QUERY_KEY } from '../constants'
 import { useFetch } from '@/src/context/fetch'
 
 interface Props {
@@ -21,7 +21,7 @@ export function useStoresQuery(props: Props = {}) {
 }
 
 export function useStoreQuery(props: Props = {}) {
-  const { config = {}, key = STORES_QUERY_KEY, id } = props
+  const { config = {}, key = STORE_QUERY_KEY, id } = props
   const { client } = useFetch()
 
   return useQuery({
