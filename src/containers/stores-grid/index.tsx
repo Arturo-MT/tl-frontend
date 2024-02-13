@@ -3,7 +3,9 @@ import StoreCard from 'components/store-card'
 import { StoreInterface } from '@/src/types'
 
 export default function StoresGrid() {
-  const { data: stores } = useStoresQuery()
+  const { data: stores, isLoading } = useStoresQuery()
+
+  if (isLoading) return <div>Loading...</div>
 
   if (stores)
     return (
