@@ -4,9 +4,10 @@ import { useAuth } from '@/src/context/auth'
 
 export default function Header() {
   const isUserLogged = localStorage.getItem('TL_USER') !== null
+  const user = JSON.parse(localStorage.getItem('TL_USER') || '{}')
   const { logout } = useAuth()
   return (
-    <header className='flex items-center justify-between w-full h-20 px-6 bg-white dark:bg-black'>
+    <header className='flex items-center justify-between w-full h-20 px-6 bg-white'>
       <div className='flex items-center h-full'>
         <Link to='/'>
           <span className='flex items-center justify-between h-full'>
@@ -19,7 +20,12 @@ export default function Header() {
       </div>
       <div className='flex items-center h-full'>
         {isUserLogged ? (
-          <Button onClick={logout}>Logout</Button>
+          <>
+            <p>
+              Hola, <strong>{user.username || 'A'}</strong>
+            </p>
+            <Button onClick={logout}>Logout</Button>
+          </>
         ) : (
           <Link to='/login'>
             <span className='flex items-center justify-between h-full'>
