@@ -5,7 +5,6 @@ import { AuthProvider } from './context/auth'
 
 import MainLayout from 'containers/main-layout'
 import Home from 'pages/home'
-import Login from 'pages/login'
 import StoreDetails from 'pages/store-details'
 
 const { VITE_REACT_APP_API_URL } = import.meta.env
@@ -30,7 +29,6 @@ export default function App() {
               <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='*' element={<div>404</div>} />
-                <Route path='/login' element={<Login />} />
                 <Route path='/:store' element={<StoreDetails />} />
               </Routes>
             </MainLayout>
