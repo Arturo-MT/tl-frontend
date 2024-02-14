@@ -3,7 +3,6 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { LoginFormValues } from '@/src/types'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAuth } from '@/src/context/auth'
@@ -33,37 +32,35 @@ const LoginForm: React.FC = () => {
       }}
     >
       {({ isSubmitting }) => (
-        <Form>
-          <Card className='flex flex-col gap-4 p-8 w-[400px] bg-slate-50'>
-            <Field
-              type='text'
-              name='username'
-              placeholder='Nombre de usuario'
-              as={Input}
-            />
-            <ErrorMessage
-              name='username'
-              component={Label}
-              className='text-red-400'
-            />
+        <Form className='space-y-3 w-full'>
+          <Field
+            type='text'
+            name='username'
+            placeholder='Nombre de usuario'
+            as={Input}
+          />
+          <ErrorMessage
+            name='username'
+            component={Label}
+            className='text-red-400'
+          />
 
-            <Field
-              type='password'
-              name='password'
-              placeholder='Contraseña'
-              as={Input}
-            />
-            <ErrorMessage
-              name='password'
-              component={Label}
-              className='text-red-400'
-            />
+          <Field
+            type='password'
+            name='password'
+            placeholder='Contraseña'
+            as={Input}
+          />
+          <ErrorMessage
+            name='password'
+            component={Label}
+            className='text-red-400'
+          />
 
-            <Button type='submit' disabled={isSubmitting}>
-              Iniciar sesión
-            </Button>
-            {loginError && <Label className='text-red-400'>{loginError}</Label>}
-          </Card>
+          <Button type='submit' disabled={isSubmitting}>
+            Iniciar sesión
+          </Button>
+          {loginError && <Label className='text-red-400'>{loginError}</Label>}
         </Form>
       )}
     </Formik>
