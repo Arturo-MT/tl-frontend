@@ -1,3 +1,5 @@
+import Loading from '@/src/components/loading'
+import NoDataFound from '@/src/components/not-found'
 import { useStoreQuery } from '@/src/hooks/api/stores'
 import { useParams } from 'react-router-dom'
 
@@ -8,8 +10,8 @@ export default function StoreDetails() {
     id: storeId
   })
 
-  if (isLoading) return <div>Loading...</div>
-  if (!data) return <div>Store not found</div>
+  if (isLoading) return <Loading />
+  if (!data) return <NoDataFound />
 
   return (
     <div className='flex flex-col items-center justify-center min-w-screen py-2'>
