@@ -28,8 +28,8 @@ export default function App() {
             <MainLayout>
               <Routes>
                 <Route path='/' element={<Home />} />
+                <Route path='/:store{\\d+}' element={<StoreDetails />} />
                 <Route path='*' element={<div>404</div>} />
-                <Route path='/:store' element={<StoreDetails />} />
               </Routes>
             </MainLayout>
           </QueryClientProvider>
