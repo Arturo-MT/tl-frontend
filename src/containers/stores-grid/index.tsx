@@ -1,11 +1,12 @@
 import { useStoresQuery } from 'hooks/api/stores'
 import StoreCard from 'components/store-card'
 import { StoreInterface } from '@/src/types'
+import Loading from '@/src/components/loading'
 
 export default function StoresGrid() {
   const { data: stores, isLoading } = useStoresQuery()
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <Loading />
 
   if (stores)
     return (
